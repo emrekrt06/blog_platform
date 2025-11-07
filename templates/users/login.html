@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+<!-- TITLE -->
+{% block title %} {% trans "Login" %} {% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    <h2>{% trans "Login" %} </h2>
+    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+    <form method="post">{% csrf_token %}
+        <p><label>{% trans "Username" %} :</label><input type="text" name="username" required></p>
+        <p><label>{% trans "Password" %} :</label><input type="password" name="password" required></p>
+        <button type="submit">{% trans "Login" %} </button>
+    </form>
+{% endblock %}

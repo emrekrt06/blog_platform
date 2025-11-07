@@ -1,0 +1,104 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} {% trans "Blog Platform" %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://unpkg.com/mvp.css" rel="stylesheet">
+        <style>
+            #theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            }
+
+            body.dark-mode {
+            background-color: #121212;
+            color: #eee;
+            transition: background 0.3s ease, color 0.3s ease;
+            }
+
+            body.dark-mode #theme-toggle {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 6px rgba(255,255,255,0.1);
+            }
+        </style>
+
+    </head>
+    <body>
+        <header>
+            <nav style="display: flex; gap: 15px; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc; margin-bottom: 20px;">
+                <a href="{% url 'post_list' %}">{% trans "Public Feed" %} </a>
+                {% if user.is_authenticated %}
+                    <span style="margin-left: 15px;">
+                        👤 {% trans "Logged in as" %}  <strong>{{ user.username }}</strong>
+                    </span>
+                    <a href="{% url 'my_posts' %}"> {% trans "My Posts" %} </a>
+                    <a href="{% url 'create_post' %}">{% trans "New Post" %}</a>
+                    <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                {% else %}
+                    <a href="{% url 'login' %}">{% trans "Login" %}</a>
+                    <a href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
+                {% endif %}
+            </nav>
+            <form action="{% url 'set_language' %}" method="post" style="position: fixed; top: -10px; right: -30px; border: none; background: transparent; box-shadow: none;">
+                {% csrf_token %}
+                <select name="language" onchange="this.form.submit()">
+                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
+                    <option value="tr" {% if request.LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
+                    <option value="nl" {% if request.LANGUAGE_CODE == 'nl' %}selected{% endif %}>🇳🇱 Nederlands</option>
+                </select>
+            </form>
+            <button id="theme-toggle"
+            style="
+                position: fixed;
+                top: 10px;
+                right: 15px;
+                width: 10px;
+                height: 10px;
+                border-radius: 30px;
+                border: none;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(5px);
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            ">
+            🌙
+            </button>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer style="text-align:center; margin-top:30px;">
+            <p>{% trans "© 2025 Blog Platform — Made by" %} <a href="https://www.orhankurt.com/" target="_blank"  >Orhan Kurt</a></p>
+            
+
+        </footer>
+
+        <script>
+            const toggleBtn = document.getElementById("theme-toggle");
+            const isDark = localStorage.getItem("darkMode") === "true";
+
+            if (isDark) {
+                document.body.classList.add("dark-mode");
+                toggleBtn.textContent = "☀️";
+            }
+
+            toggleBtn.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+                const darkNow = document.body.classList.contains("dark-mode");
+                localStorage.setItem("darkMode", darkNow);
+                toggleBtn.textContent = darkNow ? "☀️" : "🌙";
+            });
+        </script>
+    </body>
+</html>

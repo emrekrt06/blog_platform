@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+<!-- TITLE -->
+{% block title %}{% trans "Edit Post" %} {% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    <h2>{% trans "Edit Post" %} </h2>
+    <form method="post">
+        {% csrf_token %}
+        <p><small>{% trans "Tick 'Public' if you want everyone to see your post" %} .</small></p>
+        {{ form.as_p }}
+        <button type="submit">{% trans "Save Changes" %} </button>
+    </form>
+{% endblock %}

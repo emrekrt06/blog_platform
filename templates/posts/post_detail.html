@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+<!-- TITLE -->
+    {% block title %}{{ post.title }} — {% trans "Blog Platform" %} {% endblock %}
+<!----------->
+<!-- CONTENT -->
+{% block content %}
+    <!-- Blog Post -->
+        <article style="max-width: 700px; margin: 0 auto;">
+            <h1>{{ post.title }}</h1>
+            <p>
+            <strong> {% trans "Author" %} :</strong> {{ post.user.username }}
+            {% if user == post.user %}
+                <span style="color: gray;">({% trans "you" %})</span>
+            {% endif %}
+            </p>
+            <p><strong>{% trans "Status" %}:</strong> {{ post.is_public|yesno:"Public,Private" }}</p>
+            <p><strong>{% trans "Created" %}:</strong> {{ post.created_at|date:"F j, Y, H:i" }}</p>
+
+            <hr>
+            <div style="margin-top: 20px;">
+                {{ post.content|linebreaks }}
+            </div>
+
+            {% if user == post.user %}
+                <div style="margin-top: 20px;">
+                    <a href="{% url 'edit_post' post.id %}">✏️ {% trans "Edit" %}</a> |
+                    <a href="{% url 'delete_post' post.id %}">🗑️ {% trans "Delete" %}</a>
+                </div>
+            {% endif %}
+            <hr>
+        </article>
+
+    <!-- Comment Form -->
+        {% if user.is_authenticated %}
+            <div style="display: flex; justify-content: center; margin-top: 30px;">
+            <form method="post" style="
+                width: 100%;
+                max-width: 700px;
+                background: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                box-sizing: border-box;
+                text-align: center;
+            ">
+                {% csrf_token %}
+                <div style="display: flex; align-items: stretch; gap: 10px;">
+                    <textarea 
+                        name="content" 
+                        rows="3" 
+                        placeholder="Write a comment..."
+                        style="
+                            flex: 1;
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            resize: none;
+                            font-size: 14px;
+                            font-family: Arial, sans-serif;
+                            outline: none;
+                            box-sizing: border-box;
+                        "></textarea>
+                    <button 
+                        type="submit" 
+                        name="comment_submit"
+                        style="
+                            background: linear-gradient(135deg, #007bff, #00b4d8);
+                            color: white;
+                            border: none;
+                            padding: 0 30px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 15px;
+                            font-weight: 600;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.25s ease;
+                            white-space: nowrap;
+                            box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
+                            height: 45px;
+                        "
+                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 8px rgba(0, 123, 255, 0.4)'"
+                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 3px 6px rgba(0, 123, 255, 0.3)'"
+                    >
+                        💬 {% trans "Post" %} 
+                    </button>
+                </div>
+            </form>
+            </div>
+        {% else %}
+        <p><a href="{% url 'login' %}">{% trans "Log in" %} </a> {% trans "to write a comment" %} .</p>
+        {% endif %}
+
+    <!-- Comment Section Header -->
+        <h2 style="
+            font-size: 22px; 
+            font-weight: 600; 
+            margin: 40px auto 20px auto; 
+            max-width: 700px;
+            text-align: left;
+        ">{% trans "Comments" %} </h2>
+
+    <!-- Comment List -->
+        {% if comments %}
+            <div style="max-width: 700px; margin: 0 auto;">
+                {% for comment in comments %}
+                <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                    <div style="
+                        width: 40px; 
+                        height: 40px; 
+                        border-radius: 50%; 
+                        background-color: #e0e0e0; 
+                        color: #555; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        font-weight: bold; 
+                        margin-right: 10px;
+                    ">
+                        {{ comment.user.username|slice:":2"|upper }}
+                    </div>
+                    <div style="
+                        background-color: #f8f9fa; 
+                        padding: 10px 15px; 
+                        border-radius: 8px; 
+                        width: 100%;
+                        position: relative;
+                    ">
+                        <p style="margin: 0; font-weight: bold;">{{ comment.user.username }}</p>
+                        <span style="color: gray; font-size: 12px;">{{ comment.created_at|timesince }} ago</span>
+
+                        {% if comment.is_deleted %}
+                            <em style="color: gray;">This comment has been deleted.</em>
+                        {% else %}
+                            <p style="margin-top: 6px;">{{ comment.content }}</p>
+                        {% endif %}
+
+                        {% if comment.user == user and not comment.is_deleted %}
+                        <form method="post" 
+                            style="
+                                position: absolute; 
+                                top: 8px; 
+                                right: 12px; 
+                                margin: 0; 
+                                padding: 0; 
+                                border: none; 
+                                background: none;
+                            ">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete_comment_id" value="{{ comment.id }}">
+                            <button 
+                                type="submit" 
+                                style="
+                                    background: none;
+                                    border: none;
+                                    color: #999;
+                                    cursor: pointer;
+                                    font-size: 13px;
+                                    text-decoration: underline;
+                                    padding: 0;
+                                    margin: 0;
+                                    outline: none;
+                                    transition: color 0.2s ease;
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                "
+                                onmouseover="this.style.color='#c00'"
+                                onmouseout="this.style.color='#999'">
+                                {% trans "delete" %} 
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: gray; text-align: center;">{% trans "No comments yet. Be the first to comment" %} !</p>
+        {% endif %}
+
+
+{% endblock %}

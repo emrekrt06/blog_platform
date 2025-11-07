@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "My Posts" %} {% endblock %}
+
+{% block content %}
+<h2>{% trans "My Posts" %} </h2>
+{% if posts %}
+    <ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> — 
+            {% if post.is_public %}
+                <span style="color: green;">{% trans "Public" %} </span>
+            {% else %}
+                <span style="color: red;">{% trans "Private" %} </span>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>{% trans "You haven’t written any posts yet" %} .</p>
+{% endif %}
+{% endblock %}

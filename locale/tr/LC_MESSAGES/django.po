@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-06 16:07+0100\n"
+"PO-Revision-Date: 2025-11-06 17:00+0100\n"
+"Last-Translator: Orhan Kurt <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: blog_platform/settings.py:122
+msgid "English"
+msgstr "İngilizce"
+
+#: blog_platform/settings.py:123
+msgid "Dutch"
+msgstr "Felemenkçe"
+
+#: blog_platform/settings.py:124
+msgid "Turkish"
+msgstr "Türkçe"
+
+#: posts/models.py:34 templates/posts/post_detail.html:13
+msgid "Author"
+msgstr "Yazar"
+
+#: posts/models.py:37
+msgid "Title"
+msgstr "Başlık"
+
+#: posts/models.py:39 posts/models.py:81
+msgid "Content"
+msgstr "İçerik"
+
+#: posts/models.py:44
+msgid "Visibility"
+msgstr "Görünürlük"
+
+#: posts/models.py:47 posts/models.py:82
+msgid "Created at"
+msgstr "Oluşturulma Tarihi"
+
+#: posts/models.py:50
+msgid "Updated at"
+msgstr "Güncellenme Tarihi"
+
+#: posts/models.py:53
+msgid "Is public"
+msgstr "Herkese Açık"
+
+#: posts/models.py:58 posts/models.py:78 templates/posts/post_detail.html:88
+msgid "Post"
+msgstr "Gönderi"
+
+#: posts/models.py:59
+msgid "Posts"
+msgstr "Gönderiler"
+
+#: posts/models.py:80
+msgid "User"
+msgstr "Kullanıcı"
+
+#: posts/models.py:83
+msgid "Deleted"
+msgstr "Silindi"
+
+#: posts/models.py:87
+msgid "Comment"
+msgstr "Yorum"
+
+#: posts/models.py:88 templates/posts/post_detail.html:104
+msgid "Comments"
+msgstr "Yorumlar"
+
+#: templates/base.html:7 templates/posts/post_detail.html:5
+msgid "Blog Platform"
+msgstr "Blog Platformu"
+
+#: templates/base.html:32
+msgid "Public Feed"
+msgstr "Genel Akış"
+
+#: templates/base.html:35
+msgid "Logged in as"
+msgstr "Giriş yapan kullanıcı"
+
+#: templates/base.html:37 templates/posts/my_posts.html:4
+#: templates/posts/my_posts.html:7
+msgid "My Posts"
+msgstr "Gönderilerim"
+
+#: templates/base.html:38 templates/posts/create_post.html:5
+msgid "New Post"
+msgstr "Yeni Gönderi"
+
+#: templates/base.html:39
+msgid "Logout"
+msgstr "Çıkış Yap"
+
+#: templates/base.html:41 templates/users/login.html:6
+#: templates/users/login.html:10 templates/users/login.html:15
+msgid "Login"
+msgstr "Giriş Yap"
+
+#: templates/base.html:42 templates/users/signup.html:5
+#: templates/users/signup.html:9 templates/users/signup.html:12
+msgid "Sign Up"
+msgstr "Kayıt Ol"
+
+#: templates/base.html:75
+msgid "© 2025 Blog Platform — Made by"
+msgstr "© 2025 Blog Platformu — Geliştiren"
+
+#: templates/posts/create_post.html:9
+msgid "Create New Post"
+msgstr "Yeni Gönderi Oluştur"
+
+#: templates/posts/create_post.html:12 templates/posts/edit_post.html:12
+msgid "Tick 'Public' if you want everyone to see your post"
+msgstr "'Herkese Açık' seçeneğini işaretleyin, böylece herkes gönderinizi görebilir"
+
+#: templates/posts/create_post.html:14
+msgid "Create"
+msgstr "Oluştur"
+
+#: templates/posts/delete_post.html:5
+msgid "Delete Post"
+msgstr "Gönderiyi Sil"
+
+#: templates/posts/delete_post.html:9
+msgid "Are you sure you want to delete"
+msgstr "Silmek istediğine emin misin?"
+
+#: templates/posts/delete_post.html:12
+msgid "Yes, delete"
+msgstr "Evet, sil"
+
+#: templates/posts/delete_post.html:13
+msgid "Cancel"
+msgstr "İptal Et"
+
+#: templates/posts/edit_post.html:5 templates/posts/edit_post.html:9
+msgid "Edit Post"
+msgstr "Gönderiyi Düzenle"
+
+#: templates/posts/edit_post.html:14
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: templates/posts/my_posts.html:14
+msgid "Public"
+msgstr "Herkese Açık"
+
+#: templates/posts/my_posts.html:16
+msgid "Private"
+msgstr "Özel"
+
+#: templates/posts/my_posts.html:22
+msgid "You haven’t written any posts yet"
+msgstr "Henüz bir gönderi yazmadın"
+
+#: templates/posts/post_detail.html:15
+msgid "you"
+msgstr "sen"
+
+#: templates/posts/post_detail.html:18
+msgid "Status"
+msgstr "Durum"
+
+#: templates/posts/post_detail.html:19
+msgid "Created"
+msgstr "Oluşturulma"
+
+#: templates/posts/post_detail.html:28
+msgid "Edit"
+msgstr "Düzenle"
+
+#: templates/posts/post_detail.html:29
+msgid "Delete"
+msgstr "Sil"
+
+#: templates/posts/post_detail.html:94
+msgid "Log in"
+msgstr "Giriş yap"
+
+#: templates/posts/post_detail.html:94
+msgid "to write a comment"
+msgstr "yorum yazmak için"
+
+#: templates/posts/post_detail.html:173
+msgid "delete"
+msgstr "sil"
+
+#: templates/posts/post_detail.html:182
+msgid "No comments yet. Be the first to comment"
+msgstr "Henüz yorum yok. İlk yorumu sen yap"
+
+#: templates/posts/post_list.html:4 templates/posts/post_list.html:7
+msgid "Public Posts"
+msgstr "Genel Gönderiler"
+
+#: templates/posts/post_list.html:18
+msgid "No public posts available"
+msgstr "Gösterilecek genel gönderi yok"
+
+#: templates/users/login.html:13
+msgid "Username"
+msgstr "Kullanıcı Adı"
+
+#: templates/users/login.html:14
+msgid "Password"
+msgstr "Şifre"
+
+#: templates/users/logout.html:5
+msgid "Logged Out"
+msgstr "Çıkış Yapıldı"
+
+#: templates/users/logout.html:9
+msgid "You have been logged out."
+msgstr "Çıkış yaptın."
+
+#: templates/users/logout.html:10
+msgid "Login again"
+msgstr "Tekrar giriş yap"
+
+#: templates/users/logout.html:10
+msgid "or"
+msgstr "veya"
+
+#: templates/users/logout.html:10
+msgid "go to public posts"
+msgstr "genel gönderilere git"

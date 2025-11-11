@@ -1,0 +1,11 @@
+Django==4.2.25
+gunicorn
+whitenoise
+python-dotenv
+psycopg2-binary
+django-ckeditor-5==0.2.18
+django-filter==25.1
+djangorestframework==3.16.1
+Markdown==3.9
+Pillow==11.3.0
+qrcode==8.2

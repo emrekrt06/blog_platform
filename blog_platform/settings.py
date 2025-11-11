@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-@$)0x&b#6*_dl5&xrxv#mv37$30lhuhr!!c8rb^kxa%ey75dd%"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "users",  # users app added
     "posts",  # posts app added
+    "django_ckeditor_5",  # CKEditor app added
 ]
 
 MIDDLEWARE = [
@@ -132,9 +133,65 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+# You put "static" at the project root (same level as manage.py)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# CKEditor 5 Settings
+CKEDITOR_5_UPLOAD_FILE_VIEW_NAME = "ck_editor_5_upload_file"
+
+CKEDITOR_5_CONFIGS = {
+    "basic": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "link",
+            "|",
+            "numberedList",
+            "bulletedList",
+            "|",
+            "blockQuote",
+            "codeBlock",
+            "|",
+            "undo",
+            "redo",
+        ],
+        "language": "en",
+    },
+    "default": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "link",
+            "|",
+            "numberedList",
+            "bulletedList",
+            "|",
+            "blockQuote",
+            "codeBlock",
+            "|",
+            "undo",
+            "redo",
+        ],
+        "language": "en",
+    },
+}
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CKEDITOR_5_FILE_STORAGE = None

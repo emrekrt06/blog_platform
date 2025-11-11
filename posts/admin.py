@@ -24,6 +24,9 @@ class PostAdmin(admin.ModelAdmin):
         the admin search bar, such as title and content.
     """
 
-    list_display = ("id", "title", "user", "visibility", "created_at")
-    list_filter = ("visibility", "created_at")
+    list_display = ("id", "title", "user", "is_public", "created_at")
+    list_filter = ("is_public", "created_at")
     search_fields = ("title", "content")
+
+    class Media:
+        css = {"all": ("css/admin_ckeditor.css",)}

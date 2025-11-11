@@ -1,104 +1,136 @@
+{% load static %}
 {% load i18n %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %} {% trans "Blog Platform" %}{% endblock %}</title>
+        <title>{% block title %}{% trans "Blog Platform" %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://unpkg.com/mvp.css" rel="stylesheet">
-        <style>
-            #theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-            }
-
-            body.dark-mode {
-            background-color: #121212;
-            color: #eee;
-            transition: background 0.3s ease, color 0.3s ease;
-            }
-
-            body.dark-mode #theme-toggle {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 2px 6px rgba(255,255,255,0.1);
-            }
-        </style>
-
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% block extrastyle %}
+        <link rel="stylesheet" href="{% static 'css/ckeditor_dark.css' %}">
+        {% endblock %}
     </head>
-    <body>
-        <header>
-            <nav style="display: flex; gap: 15px; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-                <a href="{% url 'post_list' %}">{% trans "Public Feed" %} </a>
+
+    <body class="bg-light text-dark">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'post_list' %}">{% trans "Blog Platform" %}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-5">
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'post_list' %}">{% trans "Public Posts" %}</a>
+                </li>
                 {% if user.is_authenticated %}
-                    <span style="margin-left: 15px;">
-                        👤 {% trans "Logged in as" %}  <strong>{{ user.username }}</strong>
-                    </span>
-                    <a href="{% url 'my_posts' %}"> {% trans "My Posts" %} </a>
-                    <a href="{% url 'create_post' %}">{% trans "New Post" %}</a>
-                    <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'my_posts' %}">{% trans "My Posts" %}</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'create_post' %}">{% trans "New Post" %}</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-danger" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                </li>
                 {% else %}
-                    <a href="{% url 'login' %}">{% trans "Login" %}</a>
-                    <a href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
+                </li>
                 {% endif %}
-            </nav>
-            <form action="{% url 'set_language' %}" method="post" style="position: fixed; top: -10px; right: -30px; border: none; background: transparent; box-shadow: none;">
+            </ul>
+
+            {% if user.is_authenticated %}
+                <span class="navbar-text text-light me-3 d-none d-lg-inline">
+                    {% trans "Logged in as" %} <strong>{{ user.username }}</strong>
+                </span>
+            {% endif %}
+
+            <form action="{% url 'set_language' %}" method="post" class="me-3 d-none d-lg-block">
                 {% csrf_token %}
-                <select name="language" onchange="this.form.submit()">
-                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
-                    <option value="tr" {% if request.LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
-                    <option value="nl" {% if request.LANGUAGE_CODE == 'nl' %}selected{% endif %}>🇳🇱 Nederlands</option>
+                <select name="language" onchange="this.form.submit()" class="form-select form-select-sm bg-dark text-light border-0">
+                <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
+                <option value="tr" {% if request.LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
+                <option value="nl" {% if request.LANGUAGE_CODE == 'nl' %}selected{% endif %}>🇳🇱 Nederlands</option>
                 </select>
             </form>
-            <button id="theme-toggle"
-            style="
-                position: fixed;
-                top: 10px;
-                right: 15px;
-                width: 10px;
-                height: 10px;
-                border-radius: 30px;
-                border: none;
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(5px);
-                font-size: 20px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-                z-index: 1000;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            ">
-            🌙
-            </button>
-        </header>
+            <button id="theme-toggle" class="btn btn-outline-light btn-sm d-none d-lg-block">🌙</button>
 
-        <main>
-            {% block content %}{% endblock %}
+            {% if user.is_authenticated %}
+                <!-- Burger menu-only section -->
+                <div class="d-lg-none text-center mt-3">
+                    <div class="text-light mb-2">
+                        {% trans "Logged in as" %} <strong>{{ user.username }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <form action="{% url 'set_language' %}" method="post" class="m-0">
+                            {% csrf_token %}
+                            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm bg-dark text-light border-0">
+                                <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
+                                <option value="tr" {% if request.LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Turkish</option>
+                                <option value="nl" {% if request.LANGUAGE_CODE == 'nl' %}selected{% endif %}>🇳🇱 Dutch</option>
+                            </select>
+                        </form>
+                        <button id="theme-toggle" class="btn btn-outline-light btn-sm">🌙</button>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+        </nav>
+
+        <!-- Flash messages -->
+        <div class="container mt-5 pt-5">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        <!-- Main content -->
+        <main class="container my-4">
+        {% block content %}{% endblock %}
         </main>
 
-        <footer style="text-align:center; margin-top:30px;">
-            <p>{% trans "© 2025 Blog Platform — Made by" %} <a href="https://www.orhankurt.com/" target="_blank"  >Orhan Kurt</a></p>
-            
-
+        <!-- Footer -->
+        <footer class="bg-dark text-light">
+        <p class="mb-0 small">
+            {% trans "© 2025 Blog Platform — Made by" %}
+            <a href="https://www.orhankurt.com/" target="_blank" class="text-primary">Orhan Kurt</a>
+        </p>
         </footer>
 
+        <!-- Dark mode script -->
         <script>
-            const toggleBtn = document.getElementById("theme-toggle");
-            const isDark = localStorage.getItem("darkMode") === "true";
-
-            if (isDark) {
-                document.body.classList.add("dark-mode");
-                toggleBtn.textContent = "☀️";
-            }
-
-            toggleBtn.addEventListener("click", () => {
-                document.body.classList.toggle("dark-mode");
-                const darkNow = document.body.classList.contains("dark-mode");
-                localStorage.setItem("darkMode", darkNow);
-                toggleBtn.textContent = darkNow ? "☀️" : "🌙";
-            });
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        if (isDark) {
+            body.classList.add('dark-mode', 'bg-dark', 'text-light');
+            toggle.textContent = '☀️';
+        }
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const dark = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', dark);
+            toggle.textContent = dark ? '☀️' : '🌙';
+            body.classList.toggle('bg-dark', dark);
+            body.classList.toggle('text-light', dark);
+            body.classList.toggle('bg-light', !dark);
+            body.classList.toggle('text-dark', !dark);
+        });
         </script>
     </body>
 </html>

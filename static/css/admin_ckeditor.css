@@ -1,0 +1,9 @@
+.ck.ck-content { background:#fff !important; color:#000 !important; }
+.ck.ck-toolbar { background:#f0f0f0 !important; border-color:#ccc !important; }
+
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  .ck.ck-content { background:#1e1e1e !important; color:#fff !important; }
+  .ck.ck-toolbar { background:#747474 !important; border-color:#444 !important; }
+  .ck.ck-toolbar__items button { color:inherit !important; }
+}

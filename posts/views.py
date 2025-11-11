@@ -1,131 +1,102 @@
 # flake8: noqa
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from .models import Post
+from .forms import PostForm
+from django.shortcuts import redirect
 from django.contrib import messages
+from .forms import CommentForm
+from .models import Comment
 
 
-def post_list(request):
-    """Renders the list of public blog posts.
-    Parameters:
-        request (HttpRequest): The HTTP request object.
-    Returns:
-        HttpResponse: Renders the post list template that are public.
-    """
-    posts = Post.objects.filter(is_public=True).order_by("-created_at")
-    return render(request, "posts/post_list.html", {"posts": posts})
+class PostListView(ListView):
+    model = Post
+    template_name = "posts/post_list.html"
+    context_object_name = "posts"
+    queryset = Post.objects.filter(is_public=True).order_by("-created_at")
 
 
-@login_required
-def my_posts(request):
-    """Renders the list of blog posts created by the logged-in user.
-    Parameters:
-        request (HttpRequest): The HTTP request object.
-    Returns:
-        HttpResponse: Renders the user's posts template.
-    """
-    posts = Post.objects.filter(user=request.user).order_by("-created_at")
-    return render(request, "posts/my_posts.html", {"posts": posts})
+class MyPostsView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = "posts/my_posts.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user).order_by("-created_at")
 
 
-@login_required
-def create_post(request):
-    """Handles the creation of a new blog post by the logged-in user.
-    Parameters:
-        request (HttpRequest): The HTTP request object containing form data.
-    Returns:
-        HttpResponse: Renders the create post template or redirects to
-        the user's posts page on successful creation.
-    """
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            return redirect("my_posts")
-    else:
-        form = PostForm()
-    return render(request, "posts/create_post.html", {"form": form})
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "posts/create_post.html"
+    success_url = reverse_lazy("my_posts")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-@login_required
-def edit_post(request, post_id):
-    """Handles editing an existing blog post by the logged-in user.
-    Parameters:
-        request (HttpRequest): The HTTP request object containing form data.
-        post_id (int): The ID of the post to be edited.
-    Returns:
-        HttpResponse: Renders the edit post template or redirects to
-        the user's posts page on successful update.
-    """
-    post = get_object_or_404(Post, id=post_id, user=request.user)
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect("my_posts")
-    else:
-        form = PostForm(instance=post)
-    return render(request, "posts/edit_post.html", {"form": form, "post": post})
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "posts/edit_post.html"
+    success_url = reverse_lazy("my_posts")
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
 
 
-@login_required
-def delete_post(request, post_id):
-    """Handles deletion of a blog post by the logged-in user.
-    Parameters:
-        request (HttpRequest): The HTTP request object.
-        post_id (int): The ID of the post to be deleted.
-    Returns:
-        HttpResponse: Renders the delete confirmation template or
-        redirects to the user's posts page on successful deletion.
-    """
-    post = get_object_or_404(Post, id=post_id, user=request.user)
-    if request.method == "POST":
-        post.delete()
-        return redirect("my_posts")
-    return render(request, "posts/delete_post.html", {"post": post})
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = "posts/delete_post.html"
+    success_url = reverse_lazy("my_posts")
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
 
 
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "posts/post_detail.html"
+    context_object_name = "post"
 
-    # Restrict access to private posts
-    if not post.is_public and post.user != request.user:
-        return redirect("post_list")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        context["comments"] = post.comments.filter(is_deleted=False).order_by(
+            "-created_at"
+        )
+        context["form"] = CommentForm()
+        return context
 
-    comments = post.comments.filter(is_deleted=False).order_by("-created_at")
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
 
-    # Handle new comment submission
-    if request.method == "POST" and "delete_comment_id" not in request.POST:
-        if request.user.is_authenticated:
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.post = post
-                comment.user = request.user
+        if "delete_comment_id" in request.POST:
+            comment_id = request.POST.get("delete_comment_id")
+            comment = get_object_or_404(Comment, id=comment_id)
+            if comment.user == request.user:
+                comment.is_deleted = True
+                comment.content = ""
                 comment.save()
-                return redirect("post_detail", post_id=post.id)
-        else:
-            return redirect("login")
+                messages.success(request, "Comment deleted successfully.")
+            return redirect("post_detail", pk=post.pk)
 
-    # Handle comment deletion (mark as deleted instead of removing)
-    elif request.method == "POST" and "delete_comment_id" in request.POST:
-        comment_id = request.POST.get("delete_comment_id")
-        comment = get_object_or_404(Comment, id=comment_id)
-        if comment.user == request.user:
-            comment.is_deleted = True
-            comment.content = ""  # Optional: clear the content
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = request.user
             comment.save()
-            messages.success(request, "Comment deleted successfully.")
-        return redirect("post_detail", post_id=post.id)
+            return redirect("post_detail", pk=post.pk)
 
-    else:
-        form = CommentForm()
-
-    return render(
-        request,
-        "posts/post_detail.html",
-        {"post": post, "comments": comments, "form": form},
-    )
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)

@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+from django_ckeditor_5.fields import CKEditor5Field
 
 # import User from django's built-in auth models
 
@@ -23,10 +24,6 @@ class Post(models.Model):
         __str__(): Returns the title of the post as its string representation.
     """
 
-    VISIBILITY_CHOICES = [
-        ("public", "Public"),
-        ("private", "Private"),
-    ]
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -36,13 +33,9 @@ class Post(models.Model):
     title = models.CharField(
         max_length=200, verbose_name=_("Title")
     )  # Title of the post
-    content = models.TextField(verbose_name=_("Content"))  # Main content of the post
-    visibility = models.CharField(
-        max_length=10,
-        choices=VISIBILITY_CHOICES,
-        default="public",
-        verbose_name=_("Visibility"),
-    )  # Visibility status
+    content = CKEditor5Field(
+        _("Content"), config_name="basic"
+    )  # Main content of the post
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Created at")
     )  # Timestamp when created

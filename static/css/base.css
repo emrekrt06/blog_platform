@@ -1,0 +1,317 @@
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: #000000;
+    color: #e0e0e0;
+}
+
+/* --- Light Mode Colors --- */
+.post-status-public {
+    color: green !important;
+}
+
+.post-status-private {
+    color: red !important;
+}
+
+/* --- Dark Mode --- */
+body.dark-mode .post-status-public {
+    color: #00ff88 !important;
+}
+
+body.dark-mode .post-status-private {
+    color: #ff5555 !important;
+}
+
+/* Keep logout link red */
+body.dark-mode a.nav-link.text-danger {
+    color: #ff5555 !important;
+}
+
+body.dark-mode a.nav-link.text-danger:hover {
+    color: #ff7777 !important;
+}
+
+/* Keep public feed link green */
+body.dark-mode a.nav-link[href*="post_list"],
+body.dark-mode a.nav-link[href*="public"] {
+    color: #00ff88 !important;
+}
+
+body.dark-mode a.nav-link[href*="post_list"]:hover,
+body.dark-mode a.nav-link[href*="public"]:hover {
+    color: #33ffaa !important;
+}
+
+/* Keep 'Public Posts' header green */
+.public-header {
+    color: green !important;
+}
+
+body.dark-mode .public-header {
+    color: #00ff88 !important;
+}
+
+/* --- Bootstrap Dark Mode Fixes --- */
+body.dark-mode .card,
+body.dark-mode .alert,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .navbar,
+body.dark-mode .bg-light {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+/* Make sure text is visible in dark mode */
+body.dark-mode p,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode .text-body,
+body.dark-mode .text-dark {
+    color: #e0e0e0 !important;
+}
+
+/* Links */
+body.dark-mode a {
+    color: #ffffff !important;
+}
+
+body.dark-mode a:hover {
+    color: #99ccff !important;
+}
+
+/* Navbar links */
+body.dark-mode .navbar-dark .nav-link {
+    color: #ddd !important;
+}
+
+body.dark-mode .navbar-dark .nav-link:hover {
+    color: #0d6efd !important;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #212529;
+    color: #ddd;
+    z-index: 10;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+/* Dark Mode Enhancements for Login/Signup */
+body.dark-mode .card {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #2a2a2a !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .text-muted,
+body.dark-mode small {
+    color: #b3b3b3 !important;
+}
+
+body.dark-mode label,
+body.dark-mode .form-label {
+    color: #d9d9d9 !important;
+}
+
+body.dark-mode .form-control {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background-color: #000000 !important;
+    color: #fff !important;
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #aaaaaa !important;
+    opacity: 1;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+}
+
+body.dark-mode a.text-decoration-none {
+    color: #66b2ff !important;
+}
+
+body.dark-mode a.text-decoration-none:hover {
+    color: #99ccff !important;
+}
+
+/* Smooth transitions */
+.card,
+.form-control,
+.btn,
+a,
+small {
+    transition: all 0.3s ease;
+}
+
+/* --- Comment Section Light Mode Enhancement --- */
+.comment-box,
+div[style*="background-color: #f8f9fa"],
+div[style*="background-color: #e0e0e0"] {
+    border: 1px solid #ddd !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px !important;
+}
+
+/* --- Comment Section Dark Mode Fix --- */
+body.dark-mode textarea[name="content"] {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode textarea[name="content"]::placeholder {
+    color: #aaaaaa !important;
+}
+
+body.dark-mode form[method="post"] {
+    background-color: #000000 !important;
+    border-color: #333 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Comment list container */
+body.dark-mode .comment-box,
+body.dark-mode div[style*="background-color: #f8f9fa"],
+body.dark-mode div[style*="background-color: #e0e0e0"] {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+/* Avatar circles */
+body.dark-mode div[style*="border-radius: 50%"] {
+    background-color: #333 !important;
+    color: #bbb !important;
+}
+
+/* Timestamps and muted text */
+body.dark-mode span[style*="color: gray"],
+body.dark-mode em[style*="color: gray"],
+body.dark-mode p[style*="color: gray"] {
+    color: #b3b3b3 !important;
+}
+
+/* Delete button */
+body.dark-mode button[onmouseover*="this.style.color='#c00'"] {
+    color: #bbb !important;
+}
+
+body.dark-mode button[onmouseover*="this.style.color='#c00'"]:hover {
+    color: #ff6666 !important;
+}
+main.container {
+    padding-bottom: 80px !important;
+}
+
+/* Fix light gray background for edit post inputs in dark mode */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #000000 !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    background-color: #000000 !important;
+    border-color: #0d6efd !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+/* Ensure section dividers are visible in both modes */
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #646464;
+  margin: 1.5rem 0;
+}
+
+/* In dark mode, make them subtly visible */
+body.dark-mode hr {
+  background-color: #525252 !important;
+  opacity: 0.8;
+}
+
+/* Ensure edit/delete button text is white in dark mode */
+body.dark-mode a[href*="edit_post"],
+body.dark-mode a[href*="delete_post"] {
+    color: #ffffff !important;
+}
+
+/* Navbar link alignment fix */
+@media (max-width: 991.98px) {
+  .navbar-collapse .navbar-nav {
+    align-items: center;      /* mobilde ortala */
+    justify-content: center;
+    text-align: center;
+    gap: 0.4rem;              /* aradaki boşluk az */
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-collapse .navbar-nav {
+    align-items: flex-start;  /* desktop'ta eski haline dön */
+    text-align: left;
+    gap: 1rem;
+  }
+}

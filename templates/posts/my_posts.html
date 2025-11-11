@@ -4,21 +4,38 @@
 {% block title %}{% trans "My Posts" %} {% endblock %}
 
 {% block content %}
-<h2>{% trans "My Posts" %} </h2>
-{% if posts %}
-    <ul>
-    {% for post in posts %}
-        <li>
-            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> — 
-            {% if post.is_public %}
-                <span style="color: green;">{% trans "Public" %} </span>
-            {% else %}
-                <span style="color: red;">{% trans "Private" %} </span>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>{% trans "You haven’t written any posts yet" %} .</p>
-{% endif %}
+    <h2 style="margin-bottom: 30px;">{% trans "My Posts" %}</h2>
+    {% if posts %}
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-6 mb-4">
+            <a href="{% url 'post_detail' post.id %}" class="text-decoration-none text-reset">
+                <div class="card shadow-sm border-0 h-100" style="border-radius: 15px; min-height: 200px; transition: transform 0.2s;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-weight: bold; margin-bottom: 10px;">
+                            {{ post.title }}
+                        </h5>
+                        <p class="card-text text-muted mb-2">
+                        {% if post.is_public %}
+                            <span class="badge bg-success">{% trans "Public" %}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{% trans "Private" %}</span>
+                        {% endif %}
+                        </p>
+                        <p class="card-text flex-grow-1">{{ post.content|safe|truncatechars:120 }}</p>
+                        <p class="card-text"><small class="text-muted">{% trans "Created" %}: {{ post.created_at|date:"d/m/Y H:i" }}</small></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted text-center mt-4">{% trans "You haven’t written any posts yet" %}.</p>
+    {% endif %}
+<style>
+.card:hover {
+    transform: scale(1.02);
+}
+</style>
 {% endblock %}

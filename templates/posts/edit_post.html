@@ -1,16 +1,68 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-<!-- TITLE -->
-{% block title %}{% trans "Edit Post" %} {% endblock %}
+{% block title %}{% trans "Edit Post" %}{% endblock %}
 
-<!-- CONTENT -->
 {% block content %}
-    <h2>{% trans "Edit Post" %} </h2>
-    <form method="post">
-        {% csrf_token %}
-        <p><small>{% trans "Tick 'Public' if you want everyone to see your post" %} .</small></p>
-        {{ form.as_p }}
-        <button type="submit">{% trans "Save Changes" %} </button>
-    </form>
+    <div class="container py-5">
+        <div class="card shadow border-0 p-5 mx-auto" style="max-width: 1000px; border-radius: 12px;">
+            <h2 class="text-center fw-bold mb-4">{% trans "Edit Post" %}</h2>
+
+            <p class="text-muted text-center mb-4">
+            {% trans "Update your post below. You can choose whether to make it public or keep it private." %}
+            </p>
+
+            <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.media }}
+
+            <div class="mb-4">
+                <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold">{% trans "Title" %}</label>
+                {{ form.title }}
+                <style>
+                input[name="title"] {
+                    width: 100%;
+                    height: 65px;
+                    font-size: 1.1rem;
+                    padding: 14px 16px;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                }
+                </style>
+            </div>
+
+            <div class="mb-4">
+                <label for="{{ form.content.id_for_label }}" class="form-label fw-semibold">{% trans "Content" %}</label>
+                {{ form.content }}
+                <style>
+                textarea[name="content"] {
+                    width: 100%;
+                    min-height: 550px;
+                    font-size: 1rem;
+                    padding: 16px;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                    resize: vertical;
+                }
+                </style>
+            </div>
+
+            <div class="form-check mb-4">
+                {{ form.is_public }}
+                <label class="form-check-label ms-2" for="{{ form.is_public.id_for_label }}">
+                {% trans "Make this post public" %}
+                </label>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'my_posts' %}" class="btn btn-outline-secondary me-3 px-4">
+                {% trans "Cancel" %}
+                </a>
+                <button type="submit" class="btn btn-primary px-5">
+                {% trans "Save Changes" %}
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

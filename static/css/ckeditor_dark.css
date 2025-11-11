@@ -1,0 +1,24 @@
+/* CKEditor 5 adaptive theme */
+.ck.ck-content {
+    background-color: var(--ck-bg, #ffffff) !important;
+    color: var(--ck-fg, #000000) !important;
+}
+
+body.dark-mode .ck.ck-content {
+    --ck-bg: #1e1e1e;
+    --ck-fg: #ffffff;
+}
+
+.ck.ck-toolbar {
+    background-color: var(--ck-toolbar-bg, #f0f0f0) !important;
+    border-color: var(--ck-toolbar-border, #ccc) !important;
+}
+
+body.dark-mode .ck.ck-toolbar {
+    --ck-toolbar-bg: #565656;
+    --ck-toolbar-border: #444;
+}
+
+.ck.ck-toolbar__items button {
+    color: inherit !important;
+}

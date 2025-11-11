@@ -9,3 +9,5 @@ djangorestframework==3.16.1
 Markdown==3.9
 Pillow==11.3.0
 qrcode==8.2
+dj-database-url
+psycopg2-binary

@@ -64,8 +64,7 @@
             </form>
             <button id="theme-toggle" class="btn btn-outline-light btn-sm d-none d-lg-block">🌙</button>
 
-            {% if user.is_authenticated %}
-                <!-- Burger menu-only section -->
+                <!-- Burger menu-only section (visible to everyone) -->
                 <div class="d-lg-none text-center mt-3">
                     {% if user.is_authenticated %}
                         <div class="text-light mb-2">
@@ -84,7 +83,6 @@
                         <button id="theme-toggle" class="btn btn-outline-light btn-sm">🌙</button>
                     </div>
                 </div>
-            {% endif %}
             </div>
         </div>
         </nav>

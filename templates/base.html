@@ -67,9 +67,11 @@
             {% if user.is_authenticated %}
                 <!-- Burger menu-only section -->
                 <div class="d-lg-none text-center mt-3">
-                    <div class="text-light mb-2">
-                        {% trans "Logged in as" %} <strong>{{ user.username }}</strong>
-                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="text-light mb-2">
+                            {% trans "Logged in as" %} <strong>{{ user.username }}</strong>
+                        </div>
+                    {% endif %}
                     <div class="d-flex justify-content-center align-items-center gap-3">
                         <form action="{% url 'set_language' %}" method="post" class="m-0">
                             {% csrf_token %}

@@ -20,22 +20,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+import os
+from dotenv import load_dotenv
 
-# from dotenv import load_dotenv
+load_dotenv()
 
-# load_dotenv()
-
-# SECRET_KEY = os.getenv("SECRET_KEY")
-# DEBUG = os.getenv("DEBUG") == "True"
-# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@$)0x&b#6*_dl5&xrxv#mv37$30lhuhr!!c8rb^kxa%ey75dd%"
+# SECRET_KEY = "django-insecure-@$)0x&b#6*_dl5&xrxv#mv37$30lhuhr!!c8rb^kxa%ey75dd%"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -90,14 +90,11 @@ WSGI_APPLICATION = "blog_platform.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "blog_db_l6l3",
-        "USER": "blog_db_l6l3_user",
-        "PASSWORD": "XhejgR6IM8QboO4fpUFkZLgjXDSfeGlM",
-        "HOST": "dpg-d49nndkhg0os73bm4n20-a",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

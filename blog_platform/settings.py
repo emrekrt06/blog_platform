@@ -26,6 +26,7 @@ import os
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS if h]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = "django-insecure-@$)0x&b#6*_dl5&xrxv#mv37$30lhuhr!!c8rb^kxa%ey75dd%"
@@ -206,3 +207,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CKEDITOR_5_FILE_STORAGE = None
+
+# Render deployment settings
+import os
+
+if os.getenv("RENDER") == "true":
+    DEBUG = False
+    ALLOWED_HOSTS = ["blog-website-fb84.onrender.com"]

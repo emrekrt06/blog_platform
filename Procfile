@@ -1,1 +1,1 @@
-web: gunicorn blog_platform.wsgi
+web: python3 manage.py loaddata fixtures/seed.json && gunicorn blog_platform.wsgi

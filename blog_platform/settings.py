@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,12 +30,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@$)0x&b#6*_dl5&xrxv#mv37$30lhuhr!!c8rb^kxa%ey75dd%"
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]
+DEBUG = False
+ALLOWED_HOSTS = ["blog-platform-4.onrender.com"]
 
 
 # Application definition
@@ -88,14 +88,15 @@ WSGI_APPLICATION = "blog_platform.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "blog_db_l6l3",
-        "USER": "blog_db_l6l3_user",
-        "PASSWORD": "XhejgR6IM8QboO4fpUFkZLgjXDSfeGlM",
-        "HOST": "dpg-d49nndkhg0os73bm4n20-a",
-        "PORT": "5432",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 

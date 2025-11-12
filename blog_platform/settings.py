@@ -37,6 +37,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = False
 ALLOWED_HOSTS = ["blog-platform-4.onrender.com"]
 
+CSRF_TRUSTED_ORIGINS = ["https://blog-platform-4.onrender.com"]
+
 
 # Application definition
 

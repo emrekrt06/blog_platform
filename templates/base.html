@@ -114,22 +114,33 @@
 
         <!-- Dark mode script -->
         <script>
-        const toggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        const isDark = localStorage.getItem('darkMode') === 'true';
-        if (isDark) {
-            body.classList.add('dark-mode', 'bg-dark', 'text-light');
-            toggle.textContent = '☀️';
-        }
-        toggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const dark = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', dark);
-            toggle.textContent = dark ? '☀️' : '🌙';
-            body.classList.toggle('bg-dark', dark);
-            body.classList.toggle('text-light', dark);
-            body.classList.toggle('bg-light', !dark);
-            body.classList.toggle('text-dark', !dark);
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggles = document.querySelectorAll("#theme-toggle"); // hem desktop hem mobil
+            const body = document.body;
+            let isDark = localStorage.getItem("darkMode") === "true";
+
+            // Set initial theme based on saved preference
+            if (isDark) {
+                body.classList.add("dark-mode", "bg-dark", "text-light");
+                toggles.forEach(btn => btn.textContent = "☀️");
+            } else {
+                body.classList.add("bg-light", "text-dark");
+                toggles.forEach(btn => btn.textContent = "🌙");
+            }
+
+            // Changing theme on button click
+            toggles.forEach(btn => {
+                btn.addEventListener("click", function() {
+                    isDark = !isDark;
+                    localStorage.setItem("darkMode", isDark);
+                    body.classList.toggle("dark-mode", isDark);
+                    body.classList.toggle("bg-dark", isDark);
+                    body.classList.toggle("text-light", isDark);
+                    body.classList.toggle("bg-light", !isDark);
+                    body.classList.toggle("text-dark", !isDark);
+                    toggles.forEach(b => b.textContent = isDark ? "☀️" : "🌙");
+                });
+            });
         });
         </script>
     </body>

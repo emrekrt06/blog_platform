@@ -44,10 +44,3 @@ The project supports authentication, public/private posts, commenting, and a cle
 - **Version Control:** Git & GitHub
 
 ---
-
-## ⚙️ Installation & Setup (Local Development)
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/<your-username>/blog_platform.git
-   cd blog_platform
